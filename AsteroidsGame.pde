@@ -14,7 +14,7 @@ public void setup()
   }
   
  
-  U1=new Asteroid[10];
+  U1=new Asteroid[15];
   for(int i=0;i<U1.length;i++)
   {
   U1[i]=new Asteroid();
@@ -132,8 +132,8 @@ class Asteroid extends Floater
     else 
       a=-1;
 
-    myCenterX=300;
-    myCenterY=300;
+    myCenterX=(int)(Math.random()*500);
+    myCenterY=(int)(Math.random()*500);
     corners=8;
     xCorners=new int [corners];
     yCorners=new int [corners];
