@@ -2,31 +2,45 @@
 SpaceShip T1=new SpaceShip();
 Star[]B1;
 
-Asteroid[]U1;
+ArrayList <Asteroid> U1;
 
 
 public void setup() 
 {
   B1=new Star [500];
+  U1=new ArrayList<Asteroid>();
+
   for(int i=0;i<B1.length;i++)
   {
   B1[i]=new Star();
   }
   
- 
-  U1=new Asteroid[15];
+  
+
+
+
+  for (int i = 0; i<10; i++)
+  {
+      U1.add(new Asteroid());
+  }
+  
+
+
+   /*
+  U1=new Asteroid[8];
   for(int i=0;i<U1.length;i++)
   {
   U1[i]=new Asteroid();
   }
+  */
   
   size(500,500);//your code here
 }
 public void draw() 
-{
- background(255);
-T1.show();
-T1.move();
+{  
+
+background (0);
+
 
 
 for (int i=0; i<B1.length; i++)
@@ -35,33 +49,21 @@ for (int i=0; i<B1.length; i++)
     B1[i].show();
     }
 
-for (int i=0; i<U1.length; i++)
+for (int i=0; i<U1.size(); i++)
   {
   
-    U1[i].show();
-    U1[i].move();
+    U1.get(i).show();
+    U1.get(i).move();
+      if (dist(T1.getX(),T1.getY(),U1.get(i).getX(),U1.get(i).getY())<20) //cuz U1 is an array list, u get one element of U1 first then get the center x for that one element
+        {
+          remove(i);
+        }
     }
+T1.show();
+T1.move();
   //your code here
 }
 
-class Star
-{
-  private double direction, distance;
-  private double myX, myY;
-  public Star()
-  {
-    myX=Math.random()*500;
-    myY=Math.random()*500;
-   /* distance=Math.random()*500;
-    direction=Math.random()*2*Math.PI;
-    myX=(Math.cos(direction)*distance)+200;
-    myY=(Math.sin(direction)*distance)+200; */
-  }
-  public void show()
-  {
-    ellipse((int)myX,(int)myY,3,3);
-  }
-}
 
 public void keyPressed()
 {
@@ -123,6 +125,28 @@ class SpaceShip extends Floater
     //your code here
 }
 
+class Star
+{
+  private double direction, distance;
+  private double myX, myY;
+  public Star()
+  {
+    myX=Math.random()*500;
+    myY=Math.random()*500;
+   /* distance=Math.random()*500;
+    direction=Math.random()*2*Math.PI;
+    myX=(Math.cos(direction)*distance)+200;
+    myY=(Math.sin(direction)*distance)+200; */
+  }
+
+  public void show()
+  {
+    fill (90,90,230);
+    ellipse((int)myX,(int)myY,3,3);
+  }
+}
+
+
 class Asteroid extends Floater
 { private int a;
   public Asteroid()
@@ -131,7 +155,8 @@ class Asteroid extends Floater
       a=1;
     else 
       a=-1;
-
+    myDirectionX=(int)(Math.random()*7)-3;
+    myDirectionY=(int)(Math.random()*7)-3;
     myCenterX=(int)(Math.random()*500);
     myCenterY=(int)(Math.random()*500);
     corners=8;
@@ -163,8 +188,6 @@ class Asteroid extends Floater
   {
     rotate(a);
     super.move();
-    myCenterX += myDirectionX+3;    
-    myCenterY += myDirectionY+3;
   }
 
    public void setX(int x) {myCenterX=x;}
@@ -179,6 +202,10 @@ class Asteroid extends Floater
    public double getPointDirection(){return myPointDirection;} 
 
 }
+
+
+
+
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -241,8 +268,8 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     }   
   }   
   public void show ()  //Draws the floater at the current position  
-  {             
-    fill(myColor);   
+  {   
+    fill (90,90,230);             
     stroke(myColor);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
