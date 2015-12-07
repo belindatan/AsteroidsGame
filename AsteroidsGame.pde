@@ -2,6 +2,7 @@
 SpaceShip T1=new SpaceShip();
 Star[]B1;
 
+Bullet F1=new Bullet();
 ArrayList <Asteroid> U1;
 
 
@@ -15,9 +16,6 @@ public void setup()
   B1[i]=new Star();
   }
   
-  
-
-
 
   for (int i = 0; i<10; i++)
   {
@@ -41,8 +39,6 @@ public void draw()
 
 background (0);
 
-
-
 for (int i=0; i<B1.length; i++)
   {
     //B1[i].move();
@@ -56,7 +52,7 @@ for (int i=0; i<U1.size(); i++)
     U1.get(i).move();
       if (dist(T1.getX(),T1.getY(),U1.get(i).getX(),U1.get(i).getY())<20) //cuz U1 is an array list, u get one element of U1 first then get the center x for that one element
         {
-          remove(i);
+          U1.remove(i);
         }
     }
 T1.show();
@@ -151,10 +147,11 @@ class Asteroid extends Floater
 { private int a;
   public Asteroid()
   {
-    if (Math.random()>.5)
+  if (Math.random()>.5)
       a=1;
     else 
       a=-1;
+
     myDirectionX=(int)(Math.random()*7)-3;
     myDirectionY=(int)(Math.random()*7)-3;
     myCenterX=(int)(Math.random()*500);
@@ -204,7 +201,51 @@ class Asteroid extends Floater
 }
 
 
+class Bullet extends Floater
+{
+  Bullet()
+  {
+    myCenterX=250;
+    myCenterY=250;
+    //myPointDirection=
+    double dRadians =myPointDirection*(Math.PI/180); 
+    myDirectionX=5*Math.cos(dRadians)+0;
+    myDirectionY=5*Math.sin(dRadians)+0;
+    corners=8;
+    xCorners=new int [corners];
+    yCorners=new int [corners];
+    xCorners[0]=30;
+    yCorners[0]=0;
+    xCorners[1]=10;
+    yCorners[1]=-10;
+    xCorners[2]=0;
+    yCorners[2]=-30;
+    xCorners[3]=-10;
+    yCorners[3]=-10;
+    xCorners[4]=-30;
+    yCorners[4]=0;
+    xCorners[5]=-10;
+    yCorners[5]=10;
+    xCorners[6]=0;
+    yCorners[6]=30;
+    xCorners[7]=10;
+    yCorners[7]=10;
+  }
+   public void setX(int x) {myCenterX=x;}
+   public int getX(){return myCenterX;}   
+   public void setY(int y) {myCenterY=y;}   
+   public int getY(){return myCenterY;}   
+   public void setDirectionX(double x){myDirectionX=x;}   
+   public double getDirectionX(){return myDirectionX;}   
+   public void setDirectionY(double y){myDirectionY=y;}   
+   public double getDirectionY(){return myDirectionY;}   
+   public void setPointDirection(int degrees){myPointDirection=degrees;}   
+   public double getPointDirection(){return myPointDirection;} 
 
+  void show()
+    {ellipse(myCenterX,myCenterY,10,10); }
+
+}
 
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
@@ -268,7 +309,9 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     }   
   }   
   public void show ()  //Draws the floater at the current position  
-  {   
+  {  
+
+
     fill (90,90,230);             
     stroke(myColor);    
     //convert degrees to radians for sin and cos         
