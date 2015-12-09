@@ -2,14 +2,22 @@
 SpaceShip T1=new SpaceShip();
 Star[]B1;
 
-Bullet F1=new Bullet();
+//Bullet F1=new Bullet();
 ArrayList <Asteroid> U1;
+ArrayList <Bullet> F1;
 
 
 public void setup() 
 {
   B1=new Star [500];
   U1=new ArrayList<Asteroid>();
+  F1=new ArrayList<Bullet>();
+
+
+  for (int i = 0; i<10; i++)
+  {
+      F1.add(new Bullet());
+  }
 
   for(int i=0;i<B1.length;i++)
   {
@@ -39,6 +47,17 @@ public void draw()
 
 background (0);
 
+for (int i=0; i<F1.size(); i++)
+  {
+    F1.get(i).show();
+    F1.get(i).move();
+    if (dist(U1.get(i).getX(),U1.get(i).getY(),F1.get(i).getX(),F1.get(i).getY())<20 )
+    {
+        F1.remove(i);
+        //U1.remove(i);
+    }
+  }
+
 for (int i=0; i<B1.length; i++)
   {
     //B1[i].move();
@@ -50,19 +69,25 @@ for (int i=0; i<U1.size(); i++)
   
     U1.get(i).show();
     U1.get(i).move();
-      if (dist(T1.getX(),T1.getY(),U1.get(i).getX(),U1.get(i).getY())<20) //cuz U1 is an array list, u get one element of U1 first then get the center x for that one element
-        {
-          U1.remove(i);
-        }
+       if (dist(T1.getX(),T1.getY(),U1.get(i).getX(),U1.get(i).getY())<20) //cuz U1 is an array list, u get one element of U1 first then get the center x for that one element
+         {
+           U1.remove(i);
+         }
     }
 T1.show();
 T1.move();
+
   //your code here
 }
 
 
 public void keyPressed()
 {
+   if (key==' ')
+      {
+        F1.add(new Bullet());
+      }
+
   if (key=='w')
     {
       T1.accelerate(0.2); 
@@ -203,33 +228,15 @@ class Asteroid extends Floater
 
 class Bullet extends Floater
 {
-  Bullet()
+  public Bullet()
   {
-    myCenterX=250;
-    myCenterY=250;
-    //myPointDirection=
+    myCenterX=T1.getX();
+    myCenterY=T1.getY();
+    myPointDirection=T1.getPointDirection();
     double dRadians =myPointDirection*(Math.PI/180); 
-    myDirectionX=5*Math.cos(dRadians)+0;
-    myDirectionY=5*Math.sin(dRadians)+0;
-    corners=8;
-    xCorners=new int [corners];
-    yCorners=new int [corners];
-    xCorners[0]=30;
-    yCorners[0]=0;
-    xCorners[1]=10;
-    yCorners[1]=-10;
-    xCorners[2]=0;
-    yCorners[2]=-30;
-    xCorners[3]=-10;
-    yCorners[3]=-10;
-    xCorners[4]=-30;
-    yCorners[4]=0;
-    xCorners[5]=-10;
-    yCorners[5]=10;
-    xCorners[6]=0;
-    yCorners[6]=30;
-    xCorners[7]=10;
-    yCorners[7]=10;
+    myDirectionX=5*Math.cos(dRadians)+T1.getDirectionX();
+    myDirectionY=5*Math.sin(dRadians)+T1.getDirectionY();
+
   }
    public void setX(int x) {myCenterX=x;}
    public int getX(){return myCenterX;}   
@@ -244,9 +251,10 @@ class Bullet extends Floater
 
   void show()
     {ellipse(myCenterX,myCenterY,10,10); }
+  
 
 }
-
+//bullet.get(i).getx()
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
