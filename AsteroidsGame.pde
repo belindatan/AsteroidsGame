@@ -9,6 +9,7 @@ ArrayList <Bullet> F1;
 
 public void setup() 
 {
+   size(500,500);//your code here
   B1=new Star [500];
   U1=new ArrayList<Asteroid>();
   F1=new ArrayList<Bullet>();
@@ -40,7 +41,7 @@ public void setup()
   }
   */
   
-  size(500,500);//your code here
+ 
 }
 public void draw() 
 {  
@@ -51,11 +52,48 @@ for (int i=0; i<F1.size(); i++)
   {
     F1.get(i).show();
     F1.get(i).move();
-    if (dist(U1.get(i).getX(),U1.get(i).getY(),F1.get(i).getX(),F1.get(i).getY())<20 )
+
+    for(int j = 0; j < U1.size(); j++)
     {
-        F1.remove(i);
-        //U1.remove(i);
-    }
+
+ 
+
+        if (dist(U1.get(j).getX(),U1.get(j).getY(),F1.get(i).getX(),F1.get(i).getY())<20 )
+        {
+            F1.remove(i);
+            U1.remove(j);
+            break;
+            //issues: shoot and remove bullet confused->error
+        }
+        else if(F1.get(i).getX() > 498)
+          {
+            F1.remove(i);
+            break;
+          }
+        else if (F1.get(i).getX() < 1)
+          {
+            F1.remove(i);
+            break;
+          }
+        
+
+        else if (F1.get(i).getY() > 498)
+          {
+            F1.remove(i);
+            break;
+          }
+         else if (F1.get(i).getY() < 1)
+          {
+            F1.remove(i);
+            break;
+          }
+
+         /*else if (U1.size()==0)
+          {
+            text("WIN",250,250);
+          }*/
+    } 
+        
   }
 
 for (int i=0; i<B1.length; i++)
